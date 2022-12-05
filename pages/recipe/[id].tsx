@@ -1,6 +1,8 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Recipe } from '../../common/interfaces';
+import Navbar from '../../components/Navbar';
 import { recipes } from '../../data/recipes';
 import { normalizeText } from '../../utils';
 
@@ -20,7 +22,13 @@ const RecipePage = () => {
   }
 
   return (
-    <article>
+    <article className="format lg:format-lg dark:format-invert">
+      <Head>
+        <title>{recipe.title}</title>
+        <meta name="description" content={recipe.description} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Navbar />
       <h1>{recipe.title}</h1>
       <p>{recipe.description}</p>
       <h2>Ingredientes</h2>
