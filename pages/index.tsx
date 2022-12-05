@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Recipe } from '../common/interfaces';
 import { RecipeCard } from '../components/RecipeCard';
-import recipes from '../data/recipes.json';
+import { recipes } from '../data/recipes';
 
 export default function Home() {
   return (
@@ -16,6 +16,7 @@ export default function Home() {
         {recipes.map((recipe: Recipe) => (
           <RecipeCard
             key={recipe.id}
+            id={recipe.id}
             title={recipe.title}
             description={recipe.description}
           />
