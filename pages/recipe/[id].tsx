@@ -16,7 +16,7 @@ const RecipePage = ({ recipe }: RecipePageProps) => {
   }
 
   return (
-    <article className="format lg:format-lg dark:format-invert">
+    <article className="format lg:format-lg">
       <Head>
         <title>{recipe.title}</title>
         <meta name="description" content={recipe.description} />
