@@ -9,12 +9,7 @@ export interface PageRecipe {
   id: number;
   title: string;
   description: string;
-  ingredients: PageIngredient[];
+  ingredients: string[];
   steps: string[];
   image: string | null;
-}
-
-export interface PageIngredient {
-  name: string;
-  quantity: string;
 }
