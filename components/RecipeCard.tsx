@@ -1,12 +1,7 @@
 import Link from 'next/link';
+import { ListRecipe } from '../common/interfaces';
 
-export interface RecipeCardProps {
-  id: string;
-  title: string;
-  description: string;
-}
-
-export const RecipeCard = ({ id, title, description }: RecipeCardProps) => {
+export const RecipeCard = ({ id, title, description }: ListRecipe) => {
   return (
     <Link
       href={`/recipe/${id}`}

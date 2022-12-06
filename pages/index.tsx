@@ -1,10 +1,15 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Recipe } from '../common/interfaces';
+import { ListRecipe } from '../common/interfaces';
 import Navbar from '../components/Navbar';
 import { RecipeCard } from '../components/RecipeCard';
-import { recipes } from '../data/recipes';
+import { PrismaClient } from '@prisma/client';
 
-export default function Home() {
+interface HomePageProps {
+  recipes: ListRecipe[];
+}
+
+export default function Home({ recipes }: HomePageProps) {
   return (
     <div className="w-screen h-screen">
       <Head>
@@ -15,15 +20,35 @@ export default function Home() {
 
       <Navbar />
       <main className="w-full grid grid-cols-4 gap-4 m-12">
-        {recipes.map((recipe: Recipe) => (
+        {recipes.map((recipe: ListRecipe) => (
           <RecipeCard
             key={recipe.id}
             id={recipe.id}
             title={recipe.title}
             description={recipe.description}
+            image={recipe.image}
           />
         ))}
       </main>
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prisma = new PrismaClient();
+
+  const recipes = await prisma.recipe.findMany();
+
+  if (!recipes) {
+    return { props: { recipe: {} } };
+  }
+
+  const data: ListRecipe[] = recipes.map((recipe) => ({
+    id: recipe.id,
+    title: recipe.title,
+    description: recipe.description,
+    image: recipe.image,
+  }));
+
+  return { props: { recipes: data } };
+};

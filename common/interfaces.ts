@@ -1,21 +1,20 @@
-export interface Recipe {
-  id: string;
+export interface ListRecipe {
+  id: number;
   title: string;
   description: string;
-  ingredients: {
-    [key: string]: string;
-  };
+  image: string | null;
+}
+
+export interface PageRecipe {
+  id: number;
+  title: string;
+  description: string;
+  ingredients: PageIngredient[];
   steps: string[];
-  keywords: {
-    course: string;
-    cuisine: string;
-    diet: string;
-    allergies: string;
-    cookingTime: string;
-    occasion: string;
-    skillLevel: string;
-    calories: string;
-    rating: string;
-  };
-  image?: string;
+  image: string | null;
+}
+
+export interface PageIngredient {
+  name: string;
+  quantity: string;
 }

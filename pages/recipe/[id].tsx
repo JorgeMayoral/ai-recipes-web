@@ -1,23 +1,16 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { Recipe } from '../../common/interfaces';
 import Navbar from '../../components/Navbar';
-import { recipes } from '../../data/recipes';
 import { normalizeText } from '../../utils';
+import { PrismaClient } from '@prisma/client';
+import { PageRecipe } from '../../common/interfaces';
 
-const RecipePage = () => {
-  const [recipe, setRecipe] = useState<Recipe>();
-  const router = useRouter();
-  const { id } = router.query;
+interface RecipePageProps {
+  recipe: PageRecipe;
+}
 
-  useEffect(() => {
-    if (id) {
-      setRecipe(recipes.filter((rec) => rec.id === id)[0]);
-    }
-  }, [id]);
-
+const RecipePage = ({ recipe }: RecipePageProps) => {
   if (recipe === undefined) {
     return <h1>Loading...</h1>;
   }
@@ -37,9 +30,9 @@ const RecipePage = () => {
       <p>{recipe.description}</p>
       <h2>Ingredientes</h2>
       <ul>
-        {Object.entries(recipe.ingredients).map(([ingredient, quantity], i) => (
+        {recipe.ingredients.map(({ name, quantity }, i) => (
           <li key={i}>
-            {normalizeText(ingredient)}: {quantity}
+            {normalizeText(name)}: {quantity}
           </li>
         ))}
       </ul>
@@ -51,6 +44,36 @@ const RecipePage = () => {
       </ol>
     </article>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const prisma = new PrismaClient();
+  const id = Number(query.id);
+
+  const recipe = await prisma.recipe.findFirst({
+    where: { id },
+    include: {
+      ingredients: true,
+    },
+  });
+
+  if (!recipe) {
+    return { props: { recipe: {} } };
+  }
+
+  const data: PageRecipe = {
+    id: recipe.id,
+    title: recipe.title,
+    description: recipe.description,
+    image: recipe.image,
+    steps: recipe.steps,
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      name: ingredient.name,
+      quantity: ingredient.quantity,
+    })),
+  };
+
+  return { props: { recipe: data } };
 };
 
 export default RecipePage;
