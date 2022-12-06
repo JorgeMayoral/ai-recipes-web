@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Recipe } from '../../common/interfaces';
@@ -29,6 +30,9 @@ const RecipePage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
+      {recipe.image && (
+        <Image src={recipe.image} alt={recipe.title} width={512} height={512} />
+      )}
       <h1>{recipe.title}</h1>
       <p>{recipe.description}</p>
       <h2>Ingredientes</h2>

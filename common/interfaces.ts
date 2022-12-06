@@ -17,4 +17,5 @@ export interface Recipe {
     calories: string;
     rating: string;
   };
+  image?: string;
 }

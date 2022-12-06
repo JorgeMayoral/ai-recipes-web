@@ -32,6 +32,8 @@ export const recipes: Recipe[] = [
       calories: 'baja',
       rating: 'alta',
     },
+    image:
+      'https://res.cloudinary.com/dsgsjzztb/image/upload/v1670335367/ai-recipes/tortilla_iaxeg2.png',
   },
   {
     id: '2',
@@ -66,5 +68,7 @@ export const recipes: Recipe[] = [
       calories: 'moderada',
       rating: 'alta',
     },
+    image:
+      'https://res.cloudinary.com/dsgsjzztb/image/upload/v1670336279/ai-recipes/chicken_fajita_eciwgk.png',
   },
 ];
