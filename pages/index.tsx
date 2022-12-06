@@ -4,6 +4,7 @@ import { ListRecipe } from '../common/interfaces';
 import Navbar from '../components/Navbar';
 import { RecipeCard } from '../components/RecipeCard';
 import { PrismaClient } from '@prisma/client';
+import Footer from '../components/Footer';
 
 interface HomePageProps {
   recipes: ListRecipe[];
@@ -11,7 +12,7 @@ interface HomePageProps {
 
 export default function Home({ recipes }: HomePageProps) {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen mb-12">
       <Head>
         <title>AI Recipes</title>
         <meta name="description" content="AI generated recipes" />
@@ -19,7 +20,7 @@ export default function Home({ recipes }: HomePageProps) {
       </Head>
 
       <Navbar />
-      <main className="w-full grid grid-cols-4 gap-4 m-12">
+      <main className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 m-12">
         {recipes.map((recipe: ListRecipe) => (
           <RecipeCard
             key={recipe.id}
@@ -30,6 +31,7 @@ export default function Home({ recipes }: HomePageProps) {
           />
         ))}
       </main>
+      <Footer />
     </div>
   );
 }
