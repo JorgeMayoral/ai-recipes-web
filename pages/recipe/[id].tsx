@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Navbar from '../../components/Navbar';
-import { normalizeText } from '../../utils';
 import { PrismaClient } from '@prisma/client';
 import { PageRecipe } from '../../common/interfaces';
 
@@ -30,10 +29,8 @@ const RecipePage = ({ recipe }: RecipePageProps) => {
       <p>{recipe.description}</p>
       <h2>Ingredientes</h2>
       <ul>
-        {recipe.ingredients.map(({ name, quantity }, i) => (
-          <li key={i}>
-            {normalizeText(name)}: {quantity}
-          </li>
+        {recipe.ingredients.map((ingredient, i) => (
+          <li key={i}>{ingredient}</li>
         ))}
       </ul>
       <h2>Pasos</h2>
@@ -52,9 +49,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   const recipe = await prisma.recipe.findFirst({
     where: { id },
-    include: {
-      ingredients: true,
-    },
   });
 
   if (!recipe) {
@@ -67,10 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     description: recipe.description,
     image: recipe.image,
     steps: recipe.steps,
-    ingredients: recipe.ingredients.map((ingredient) => ({
-      name: ingredient.name,
-      quantity: ingredient.quantity,
-    })),
+    ingredients: recipe.ingredients,
   };
 
   return { props: { recipe: data } };
