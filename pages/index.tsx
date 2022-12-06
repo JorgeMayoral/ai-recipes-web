@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { ListRecipe } from '../common/interfaces';
 import Navbar from '../components/Navbar';
@@ -34,7 +34,7 @@ export default function Home({ recipes }: HomePageProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const prisma = new PrismaClient();
 
   const recipes = await prisma.recipe.findMany();
